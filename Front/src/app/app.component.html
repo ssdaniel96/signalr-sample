@@ -1,0 +1,20 @@
+<div class="container">
+  <h1>My chat</h1>
+  <textarea
+    [(ngModel)]="message"
+    (keyup.enter)="sendMessage()"
+    placeholder="Type your message here"
+  ></textarea>
+</div>
+<div class="container">
+  <h2>Messages sent</h2>
+  <div *ngFor="let message of messagesSent">
+    <p>{{ message }}</p>
+  </div>
+</div>
+<div class="container">
+  <h2>Messages Received</h2>
+  <div *ngFor="let message of messagesReceived">
+    <p>{{ message }}</p>
+  </div>
+</div>
