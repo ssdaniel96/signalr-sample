@@ -10,3 +10,4 @@ riderModule.iml
 .vscode/
 **/.vscode/
 .DS_Store
+Front/package-lock.json
