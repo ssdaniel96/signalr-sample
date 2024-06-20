@@ -1,20 +1,29 @@
 <div class="container">
   <h1>My chat</h1>
-  <textarea
-    [(ngModel)]="content"
-    (keyup.enter)="sendMessage()"
-    placeholder="Type your message here"
-  ></textarea>
-</div>
-<div class="container">
-  <h2>Messages sent</h2>
-  <div *ngFor="let message of messagesSent">
-    <p>{{ message.content }}</p>
+  <div class="sub-content">
+    <input
+      type="text"
+      [(ngModel)]="author"
+      (keyup.enter)="setName()"
+      placeholder="Enter your name"
+      [disabled]="readyToMessage"
+    />
+  </div>
+  <div class="sub-content">
+    <textarea
+      [(ngModel)]="content"
+      (keyup.enter)="sendMessage()"
+      placeholder="Type your message here"
+      [disabled]="!readyToMessage"
+    ></textarea>
   </div>
 </div>
 <div class="container">
-  <h2>Messages Received {{token}}</h2>
-  <div *ngFor="let message of messagesReceived">
-    <p>{{ message.content }}</p>
+  <h2>Chat</h2>
+  <div *ngFor="let message of messages">
+    <p>
+      [{{ message.creationDate | date:'short' }}] {{ message.author }} say:
+      {{ message.content }}
+    </p>
   </div>
 </div>

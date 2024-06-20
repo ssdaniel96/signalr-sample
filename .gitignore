@@ -9,3 +9,4 @@ riderModule.iml
 .idea/
 .vscode/
 **/.vscode/
+.DS_Store

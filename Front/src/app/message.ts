@@ -1,11 +1,11 @@
-import { Signal } from "./signal"
+export class Message {
+  public author: string;
+  public content: string;
+  public creationDate: Date;
 
-export class Message extends Signal {
-  public content: string
-
-  constructor(token: string, content: string) {
-    super(token)
-    this.content = content
+  constructor(author: string, content: string) {
+    this.author = author;
+    this.content = content;
+    this.creationDate = new Date();
   }
-
 }

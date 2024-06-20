@@ -7,6 +7,6 @@ public class ChatHub : Hub
 {
     public async Task NewMessage(Message message)
     {
-        await Clients.All.SendAsync("messageReceived", message);
+        await Clients.AllExcept(Context.ConnectionId).SendAsync("messageReceived", message);
     }
 }   

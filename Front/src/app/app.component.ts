@@ -16,28 +16,25 @@ export class AppComponent {
   title = 'Front';
 
   public content: string = '';
-  public messagesSent: Message[] = new Array<Message>();
-  public messagesReceived: Message[] = new Array<Message>();
-  public token: string;
+  public author: string = '';
+  public messages: Message[] = new Array<Message>();
+  public readyToMessage: boolean = false;
 
   constructor(private realtimeService: RealtimeService){
-    this.token = this.randomString(40, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
     this.realtimeService.chatUpdated$.subscribe((message: Message) => {
-      this.messagesReceived.push(message);
+      this.messages.push(message);
     });
-  }
-
-  private randomString(length: number, chars: string) {
-    var result = '';
-    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-    return result;
   }
 
   public sendMessage(){
     console.log('Sending message: ', this.content);
-    let newMessage = new Message(this.token, this.content);
-    this.messagesSent.push(newMessage);
+    let newMessage = new Message(this.author, this.content);
+    this.messages.push(newMessage);
     this.realtimeService.sendMessage(newMessage);
     this.content = ''
+  }
+
+  public setName(){
+    this.readyToMessage = true;
   }
 }
