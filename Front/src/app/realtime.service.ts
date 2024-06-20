@@ -19,8 +19,7 @@ export class RealtimeService {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets,
       })
-      // .withKeepAliveInterval(1000 * 60 * 3)
-      .withStatefulReconnect()
+      .withAutomaticReconnect()
       .build();
 
     this.connection
