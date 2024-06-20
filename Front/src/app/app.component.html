@@ -1,7 +1,7 @@
 <div class="container">
   <h1>My chat</h1>
   <textarea
-    [(ngModel)]="message"
+    [(ngModel)]="content"
     (keyup.enter)="sendMessage()"
     placeholder="Type your message here"
   ></textarea>
@@ -9,12 +9,12 @@
 <div class="container">
   <h2>Messages sent</h2>
   <div *ngFor="let message of messagesSent">
-    <p>{{ message }}</p>
+    <p>{{ message.content }}</p>
   </div>
 </div>
 <div class="container">
-  <h2>Messages Received</h2>
+  <h2>Messages Received {{token}}</h2>
   <div *ngFor="let message of messagesReceived">
-    <p>{{ message }}</p>
+    <p>{{ message.content }}</p>
   </div>
 </div>
