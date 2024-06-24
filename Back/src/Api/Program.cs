@@ -3,11 +3,14 @@ using Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
+
 builder.Services.AddScoped<ChatHubService>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -41,15 +44,11 @@ app.MapControllers();
 app.MapHub<ChatHub>("/hub");
 app.UseAuthentication();
 app.UseAuthorization();
-
-
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "SignalR PoC v1");
     options.RoutePrefix = string.Empty;
 });
-
-
 
 app.Run();

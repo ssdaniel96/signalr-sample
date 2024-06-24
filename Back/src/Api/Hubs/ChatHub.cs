@@ -1,11 +1,9 @@
 using Api.Dtos;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Api.Hubs;
 
-// [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [AllowAnonymous]
 public class ChatHub : Hub
 {
@@ -13,16 +11,17 @@ public class ChatHub : Hub
     {
         await Clients.AllExcept(Context.ConnectionId).SendAsync("messageReceived", message);
     }
+    
     private async Task SendMessageToUser(Message message, string userId)
     {
-        await Clients.User(userId).SendAsync("messageReceived", message);
+        await Clients.Caller.SendAsync("messageReceived", message);
     }
     
     private async Task SendMessageToGroupExceptUser(Message message, string groupName, string userId)
     {
         await Clients.GroupExcept(groupName, userId).SendAsync("messageReceived", message);
     }
-
+    
     public async Task JoinGroup(string groupName, string author)
     {
         await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
@@ -33,7 +32,7 @@ public class ChatHub : Hub
             SendMessageToGroupExceptUser(new Message($"{author} join in group {groupName}", "Server"), groupName,
             Context.ConnectionId)
         };
-        
+
         await Task.WhenAll(tasks);
     }
     
