@@ -23,6 +23,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             OnMessageReceived = context =>
             {
+                Console.WriteLine(context.Request.Query["access_token"]);
                 var accessToken = context.Request.Query["access_token"];
                 if (!string.IsNullOrEmpty(accessToken))
                 {
@@ -35,11 +36,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-
-
+app.MapControllers();
+app.MapHub<ChatHub>("/hub");
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
+
 
 app.UseSwagger();
 app.UseSwaggerUI(options =>
@@ -47,8 +48,6 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "SignalR PoC v1");
     options.RoutePrefix = string.Empty;
 });
-
-app.MapHub<ChatHub>("/hub");
 
 
 

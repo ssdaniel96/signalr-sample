@@ -11,6 +11,12 @@
 </div>
 
 <div class="container">
+  <div class="sub-content">
+    <button (click)="toggleGroup('group1')" [disabled]="!readyToMessage">{{ !groups['group1'] ? 'Join Group 1' : 'Leave Grupo 1'}}</button>
+  </div>
+</div>
+
+<div class="container">
   <h1>My chat</h1>
   <div class="sub-content">
     <div *ngFor="let message of messages">
