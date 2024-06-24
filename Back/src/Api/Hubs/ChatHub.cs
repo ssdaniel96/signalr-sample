@@ -28,8 +28,8 @@ public class ChatHub : Hub
 
         var tasks = new List<Task>
         {
-            SendMessageToUser(new($"You was joined in group {groupName}", "Server"), Context.ConnectionId),
-            SendMessageToGroupExceptUser(new Message($"{author} join in group {groupName}", "Server"), groupName,
+            SendMessageToUser(new($"You joined group {groupName}", "Server"), Context.ConnectionId),
+            SendMessageToGroupExceptUser(new Message($"{author} joined group {groupName}", "Server"), groupName,
             Context.ConnectionId)
         };
 
@@ -42,7 +42,7 @@ public class ChatHub : Hub
 
         var tasks = new List<Task>
         {
-            SendMessageToUser(new($"You was removed from group {groupName}", "Server"), Context.ConnectionId),
+            SendMessageToUser(new($"You left group {groupName}", "Server"), Context.ConnectionId),
             SendMessageToGroupExceptUser(new Message($"{author} leave group {groupName}", "Server"), groupName,
                 Context.ConnectionId)
         };
