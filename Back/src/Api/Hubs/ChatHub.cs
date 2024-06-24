@@ -13,21 +13,12 @@ public class ChatHub : Hub
     {
         await Clients.AllExcept(Context.ConnectionId).SendAsync("messageReceived", message);
     }
-    
-    public async Task SendMessage(Message message, string? groupName = null)
-    {
-        if (!string.IsNullOrWhiteSpace(groupName))
-            await Clients.Group(groupName).SendAsync("messageReceived", message);
-        else
-            await Clients.All.SendAsync("messageReceived", message);
-    }
-    
-    public async Task SendMessageToUser(Message message, string userId)
+    private async Task SendMessageToUser(Message message, string userId)
     {
         await Clients.User(userId).SendAsync("messageReceived", message);
     }
     
-    public async Task SendMessageToGroupExceptUser(Message message, string groupName, string userId)
+    private async Task SendMessageToGroupExceptUser(Message message, string groupName, string userId)
     {
         await Clients.GroupExcept(groupName, userId).SendAsync("messageReceived", message);
     }

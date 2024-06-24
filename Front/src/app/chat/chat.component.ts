@@ -47,9 +47,9 @@ export class ChatComponent implements OnInit {
     console.log('Group status: ', this.groups[groupName]);
     this.groups[groupName] = !this.groups[groupName];
     if (this.groups[groupName]){
-      this.realtimeService.joinGroup(groupName);
+      this.realtimeService.joinGroup(groupName, this.author);
     } else {
-      this.realtimeService.leaveGroup(groupName);
+      this.realtimeService.leaveGroup(groupName, this.author);
     }
     console.log('Group toggled')
     console.log('Group status: ', this.groups[groupName]);

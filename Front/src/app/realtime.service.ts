@@ -46,16 +46,16 @@ export class RealtimeService {
       .catch((err) => console.error('Error sending message: ', err));
   }
 
-  public joinGroup(groupName: string) {
+  public joinGroup(groupName: string, author: string) {
     this.connection
-      .invoke('joinGroup', groupName)
+      .invoke('joinGroup', groupName, author)
       .then(() => console.log('Joined group: ', groupName))
       .catch((err) => console.error('Error joining group: ', err));
   }
 
-  public leaveGroup(groupName: string) {
+  public leaveGroup(groupName: string, author: string) {
     this.connection
-      .invoke('leaveGroup', groupName)
+      .invoke('leaveGroup', groupName, author)
       .then(() => console.log('Left group: ', groupName))
       .catch((err) => console.error('Error leaving group: ', err));
   }
