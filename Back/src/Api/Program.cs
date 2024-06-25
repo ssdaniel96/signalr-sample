@@ -11,7 +11,11 @@ builder.Services.AddSignalR();
 
 builder.Services.AddScoped<ChatHubService>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
     .AddJwtBearer(options =>
     {
         options.Authority = builder.Configuration["FirebaseTokenValidation:Authority"];
@@ -27,7 +31,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             OnMessageReceived = context =>
             {
-                Console.WriteLine(context.Request.Query["access_token"]);
                 var accessToken = context.Request.Query["access_token"];
                 if (!string.IsNullOrEmpty(accessToken))
                 {
@@ -41,7 +44,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 var app = builder.Build();
 
 app.MapControllers();
-app.MapHub<ChatHub>("/hub");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSwagger();
@@ -50,5 +52,7 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "SignalR PoC v1");
     options.RoutePrefix = string.Empty;
 });
+
+app.MapHub<ChatHub>("/hub");
 
 app.Run();
