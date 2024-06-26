@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.SignalR;
 namespace Api.Hubs;
 
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-public class ChatHub : Hub
+public class Chat1Hub : Hub
 {
     public async Task NewMessage(Message message)
     {

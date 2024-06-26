@@ -1,26 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { Message } from '../message';
-import { RealtimeService } from '../realtime.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Message } from '../models/message';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Chat2Service } from '../../services/chat2.service';
 
 @Component({
-  selector: 'app-chat',
+  selector: 'app-chat2',
   standalone: true,
   imports: [ CommonModule, FormsModule ],
-  templateUrl: './chat.component.html',
-  styleUrl: './chat.component.css'
+  templateUrl: './chat2.component.html',
+  styleUrl: './chat2.component.css'
 })
-export class ChatComponent implements OnInit {
+export class Chat2Component implements OnInit, OnDestroy {
   public content: string = '';
   public author: string = '';
   public messages: Message[] = new Array<Message>();
   public readyToMessage: boolean = false;
   public groups: Record<string, boolean> = {};
 
-  constructor(private realtimeService: RealtimeService){
-    this.realtimeService.chatUpdated$.subscribe((message: Message) => {
+  constructor(private chat2Service: Chat2Service){
+    this.chat2Service.chatUpdated$.subscribe((message: Message) => {
       this.messages.push(message);
+    });
+  }
+
+  async ngOnDestroy(): Promise<void> {
+    await this.chat2Service.stopConnection().then(() => {
+      console.log('Chat2Component: stop the conneciton');
     });
   }
 
@@ -34,7 +40,7 @@ export class ChatComponent implements OnInit {
     console.log('Sending message: ', this.content);
     let newMessage = new Message(this.author, this.content);
     this.messages.push(newMessage);
-    this.realtimeService.sendMessage(newMessage);
+    this.chat2Service.sendMessage(newMessage);
     this.content = ''
   }
 
@@ -47,9 +53,9 @@ export class ChatComponent implements OnInit {
     console.log('Group status: ', this.groups[groupName]);
     this.groups[groupName] = !this.groups[groupName];
     if (this.groups[groupName]){
-      this.realtimeService.joinGroup(groupName, this.author);
+      this.chat2Service.joinGroup(groupName, this.author);
     } else {
-      this.realtimeService.leaveGroup(groupName, this.author);
+      this.chat2Service.leaveGroup(groupName, this.author);
     }
     console.log('Group toggled')
     console.log('Group status: ', this.groups[groupName]);

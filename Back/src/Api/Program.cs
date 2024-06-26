@@ -9,7 +9,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
 
-builder.Services.AddScoped<ChatHubService>();
+builder.Services.AddScoped<ChatHub1Service>();
+builder.Services.AddScoped<ChatHub2Service>();
+builder.Services.AddScoped<ChatHub3Service>();
 
 builder.Services.AddAuthentication(options =>
     {
@@ -32,7 +34,9 @@ builder.Services.AddAuthentication(options =>
             OnMessageReceived = context =>
             {
                 var accessToken = context.Request.Query["access_token"];
+                var path = context.HttpContext.Request.Path;
                 if (!string.IsNullOrEmpty(accessToken))
+                    // && (path.StartsWithSegments("/hubs")))
                 {
                     context.Token = accessToken;
                 }
@@ -53,6 +57,8 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = string.Empty;
 });
 
-app.MapHub<ChatHub>("/hub");
+app.MapHub<Chat1Hub>("/hubs/chat1");
+app.MapHub<Chat2Hub>("/hubs/chat2");
+app.MapHub<Chat3Hub>("/hubs/chat3");
 
 app.Run();

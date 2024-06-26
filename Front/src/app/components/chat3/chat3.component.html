@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="sub-content">
+    <input
+      type="text"
+      [(ngModel)]="author"
+      (keyup.enter)="setName()"
+      placeholder="Enter your name"
+      [disabled]="readyToMessage"
+    />
+  </div>
+</div>
+
+<div class="container">
+  <div class="sub-content">
+    <button (click)="toggleGroup('group1')" [disabled]="!readyToMessage">{{ !groups['group1'] ? 'Join Group 1' : 'Leave Grupo 1'}}</button>
+  </div>
+</div>
+
+<div class="container">
+  <h1>Chat 3</h1>
+  <div class="sub-content">
+    <div *ngFor="let message of messages">
+      <p>
+        [{{ message.creationDate | date : "short" }}] {{ message.author }} say:
+        {{ message.content }}
+      </p>
+    </div>
+  </div>
+  <div class="sub-content">
+    <textarea
+      [(ngModel)]="content"
+      (keyup.enter)="sendMessage()"
+      placeholder="Type your message here"
+      [disabled]="!readyToMessage"
+    ></textarea>
+  </div>
+</div>
