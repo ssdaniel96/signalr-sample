@@ -41,6 +41,7 @@ export class RealtimeService {
   }
 
   private async starConnection(attemptsLimit: number = 1000): Promise<boolean> {
+    this.closeConnection = false;
     let attempt = 1;
     while (true) {
       try {
